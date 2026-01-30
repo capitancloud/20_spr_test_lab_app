@@ -1,39 +1,68 @@
 import { motion } from 'framer-motion';
 import { Hero } from '@/components/Hero';
+import { WhatIsTesting } from '@/components/WhatIsTesting';
+import { StepByStep } from '@/components/StepByStep';
+import { Glossary } from '@/components/Glossary';
 import { ConceptsSection } from '@/components/ConceptsSection';
 import { TestRunner } from '@/components/TestRunner';
 import { TestingBenefits } from '@/components/TestingBenefits';
+import { AnimatedBackground } from '@/components/AnimatedBackground';
 import { testSuites } from '@/data/mockTests';
-import { FlaskConical, Github, Heart } from 'lucide-react';
+import { FlaskConical, Heart, ExternalLink } from 'lucide-react';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Animated Background */}
+      <AnimatedBackground />
+
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
+      <motion.header 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl"
+      >
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <motion.div 
+            className="flex items-center gap-2"
+            whileHover={{ scale: 1.02 }}
+          >
             <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
               <FlaskConical className="w-5 h-5 text-primary" />
             </div>
             <span className="font-bold text-lg">TestLab</span>
-          </div>
-          <nav className="flex items-center gap-6">
-            <a href="#concepts" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <span className="hidden sm:inline-block px-2 py-0.5 text-xs font-medium bg-success/20 text-success rounded-full">
+              per principianti
+            </span>
+          </motion.div>
+          <nav className="flex items-center gap-2 sm:gap-6">
+            <a href="#what-is-testing" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1">
+              Cos'è un test?
+            </a>
+            <a href="#concepts" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1 hidden md:inline">
               Concetti
             </a>
-            <a href="#runner" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#runner" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1">
               Playground
-            </a>
-            <a href="#benefits" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Benefici
             </a>
           </nav>
         </div>
-      </header>
+      </motion.header>
 
       {/* Hero Section */}
       <Hero />
+
+      {/* What is Testing - New educational section */}
+      <div id="what-is-testing">
+        <WhatIsTesting />
+      </div>
+
+      {/* Step by Step Guide */}
+      <StepByStep />
+
+      {/* Glossary */}
+      <Glossary />
 
       {/* Concepts Section */}
       <div id="concepts">
@@ -49,15 +78,21 @@ const Index = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <span className="text-primary text-sm font-semibold uppercase tracking-wider">
-              Simulazione interattiva
-            </span>
+            <motion.span 
+              initial={{ scale: 0.9 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              className="inline-block text-primary text-sm font-semibold uppercase tracking-wider"
+            >
+              🎮 Simulazione interattiva
+            </motion.span>
             <h2 className="text-3xl md:text-4xl font-bold mt-2 mb-4">
               Guarda i test in azione
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Premi "Esegui" e osserva come ogni test viene eseguito. 
-              Espandi i test per vedere il codice e capire cosa viene verificato.
+              Questo è un <strong>playground simulato</strong>: non esegue codice reale, 
+              ma ti mostra esattamente come funziona un test runner. 
+              Premi play e osserva!
             </p>
           </motion.div>
 
@@ -77,37 +112,60 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative bg-card border border-border rounded-3xl p-12 text-center overflow-hidden"
+            className="relative bg-card border border-border rounded-3xl p-8 md:p-12 text-center overflow-hidden"
           >
             {/* Background glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-success/5" />
+            <motion.div
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.2, 0.1]
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
+            />
             
             <div className="relative z-10">
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring" }}
+                className="text-6xl mb-6"
+              >
+                🚀
+              </motion.div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Pronto a testare?
+                Pronto a scrivere il tuo primo test?
               </h2>
               <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-                Il testing non è difficile, è solo diverso. 
-                Inizia con un test semplice e costruisci da lì. 
-                Ogni grande codebase testata è iniziata con <code className="text-primary">expect(true).toBe(true)</code>.
+                Hai capito le basi! Ora è il momento di sporcarti le mani. 
+                Inizia con qualcosa di semplice, tipo <code className="text-primary bg-primary/10 px-2 py-0.5 rounded">expect(1+1).toBe(2)</code>.
+                Puoi farcela! 💪
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <a
+                <motion.a
                   href="https://vitest.dev/guide/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:opacity-90 transition-opacity"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium shadow-lg shadow-primary/25"
                 >
                   Inizia con Vitest
-                </a>
-                <a
+                  <ExternalLink className="w-4 h-4" />
+                </motion.a>
+                <motion.a
                   href="https://jestjs.io/docs/getting-started"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-secondary text-secondary-foreground rounded-full font-medium hover:bg-secondary/80 transition-colors"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-secondary text-secondary-foreground rounded-full font-medium border border-border"
                 >
                   Prova Jest
-                </a>
+                  <ExternalLink className="w-4 h-4" />
+                </motion.a>
               </div>
             </div>
           </motion.div>
@@ -120,13 +178,18 @@ const Index = () => {
           <div className="flex items-center gap-2 text-muted-foreground">
             <FlaskConical className="w-5 h-5 text-primary" />
             <span className="font-semibold">TestLab</span>
-            <span>—</span>
-            <span className="text-sm">Impara il testing senza paura</span>
+            <span className="hidden sm:inline">—</span>
+            <span className="text-sm hidden sm:inline">Impara il testing senza paura</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <span>Fatto con</span>
-            <Heart className="w-4 h-4 text-error" />
-            <span>per gli sviluppatori</span>
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <Heart className="w-4 h-4 text-error fill-error" />
+            </motion.div>
+            <span>per chi vuole imparare</span>
           </div>
         </div>
       </footer>
