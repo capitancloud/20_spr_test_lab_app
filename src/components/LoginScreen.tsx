@@ -193,20 +193,6 @@ export const LoginScreen = () => {
               </Button>
             </motion.div>
           </form>
-
-          {/* Info section */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="mt-8 pt-6 border-t border-border/50 text-center"
-          >
-            <p className="text-xs text-muted-foreground">
-              🔒 Il codice viene verificato tramite hash SHA-256
-              <br />
-              <span className="text-muted-foreground/70">Nessuna password viene memorizzata in chiaro</span>
-            </p>
-          </motion.div>
         </motion.div>
 
         {/* Bottom decoration */}
