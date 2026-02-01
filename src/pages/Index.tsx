@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Hero } from '@/components/Hero';
 import { WhatIsTesting } from '@/components/WhatIsTesting';
 import { StepByStep } from '@/components/StepByStep';
@@ -7,12 +7,56 @@ import { ConceptsSection } from '@/components/ConceptsSection';
 import { TestRunner } from '@/components/TestRunner';
 import { TestingBenefits } from '@/components/TestingBenefits';
 import { AnimatedBackground } from '@/components/AnimatedBackground';
+import { LoginScreen } from '@/components/LoginScreen';
+import { LogoutButton } from '@/components/LogoutButton';
+import { useAuth } from '@/contexts/AuthContext';
 import { testSuites } from '@/data/mockTests';
-import { FlaskConical, Heart, ExternalLink } from 'lucide-react';
+import { FlaskConical, Heart, ExternalLink, Loader2 } from 'lucide-react';
 
 const Index = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex flex-col items-center gap-4"
+        >
+          <Loader2 className="w-8 h-8 text-primary animate-spin" />
+          <p className="text-muted-foreground">Caricamento...</p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Login screen
+  if (!isAuthenticated) {
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key="login"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <LoginScreen />
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background relative">
+    <AnimatePresence mode="wait">
+      <motion.div
+        key="main"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="min-h-screen bg-background relative"
+      >
       {/* Animated Background */}
       <AnimatedBackground />
 
@@ -36,16 +80,17 @@ const Index = () => {
               per principianti
             </span>
           </motion.div>
-          <nav className="flex items-center gap-2 sm:gap-6">
-            <a href="#what-is-testing" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1">
+          <nav className="flex items-center gap-2 sm:gap-4">
+            <a href="#what-is-testing" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1 hidden md:inline">
               Cos'è un test?
             </a>
             <a href="#concepts" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1 hidden md:inline">
               Concetti
             </a>
-            <a href="#runner" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1">
+            <a href="#runner" className="text-sm text-muted-foreground hover:text-foreground transition-colors px-2 py-1 hidden md:inline">
               Playground
             </a>
+            <LogoutButton />
           </nav>
         </div>
       </motion.header>
@@ -193,7 +238,8 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 
