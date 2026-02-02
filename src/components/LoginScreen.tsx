@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FlaskConical, KeyRound, Eye, EyeOff, Loader2, AlertCircle, Sparkles } from 'lucide-react';
+import { KeyRound, Eye, EyeOff, Loader2, AlertCircle, Sparkles } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import superProgrammatoreLogo from '@/assets/super-programmatore-logo.png';
 
 export const LoginScreen = () => {
   const [code, setCode] = useState('');
@@ -110,10 +111,14 @@ export const LoginScreen = () => {
             transition={{ delay: 0.2 }}
           >
             <motion.div
-              whileHover={{ scale: 1.05, rotate: 5 }}
-              className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 mb-4"
+              whileHover={{ scale: 1.05 }}
+              className="inline-block mb-4"
             >
-              <FlaskConical className="w-8 h-8 text-primary" />
+              <img 
+                src={superProgrammatoreLogo} 
+                alt="Super Programmatore" 
+                className="w-48 h-auto mx-auto"
+              />
             </motion.div>
             <h1 className="text-2xl font-bold mb-2">Benvenuto in TestLab</h1>
             <p className="text-muted-foreground text-sm">
